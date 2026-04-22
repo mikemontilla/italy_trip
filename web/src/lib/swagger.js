@@ -10,7 +10,28 @@ const options = {
       description: "API for the SplitMate group expense splitter.",
     },
     servers: [{ url: "/api", description: "Current host" }],
-    tags: [{ name: "System", description: "Health and infrastructure" }],
+    tags: [
+      { name: "System", description: "Health and infrastructure" },
+      { name: "Events", description: "Group expense events" },
+    ],
+    components: {
+      schemas: {
+        Event: {
+          type: "object",
+          properties: {
+            id:                 { type: "integer" },
+            code:               { type: "string", example: "A1B2C3D4" },
+            name:               { type: "string" },
+            description:        { type: "string", nullable: true },
+            photo_path:         { type: "string", nullable: true },
+            status:             { type: "string", enum: ["active", "finalized"] },
+            created_by_user_id: { type: "integer" },
+            created_at:         { type: "string", format: "date-time" },
+            finalized_at:       { type: "string", format: "date-time", nullable: true },
+          },
+        },
+      },
+    },
   },
   apis: [path.join(process.cwd(), "src/app/api/**/*.js")],
 };

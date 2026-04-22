@@ -21,3 +21,14 @@ export async function query(sql, params = []) {
   const [rows] = await getPool().execute(sql, params);
   return rows;
 }
+
+export async function end() {
+  if (pool) {
+    await pool.end();
+    pool = undefined;
+  }
+}
+
+export async function getConnection() {
+  return getPool().getConnection();
+}
