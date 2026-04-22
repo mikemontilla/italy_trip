@@ -77,6 +77,9 @@ A web application accessible from anywhere in the world where users can create *
 - The system must allow authenticated users to create events
 - The system must assign a unique alphanumeric code to each event
 - The system must assign administrator role to the user who first creates an event
+- The system must automatically register the creator as a participant of the event upon creation
+- The system must support an optional photo attached to each event
+- The system must display a default placeholder image for events without a custom photo
 - The system must allow administrators to assign other participants as administrators
 - The system must allow administrators to finalize an event
 - The system must associate events with the users who created or participate in them
@@ -122,6 +125,9 @@ A web application accessible from anywhere in the world where users can create *
 - Once finalized, no participant (other than the administrator) can perform further actions on the event
 - Finalized events must remain accessible in read-only mode for all participants
 
+### 5.9 User Interface Conventions
+- Forms for creating entities (events, participants, expenses, movements) must guide the user through a step-by-step flow that presents one question at a time, rather than displaying all fields simultaneously
+
 ---
 
 ## 6. Logical Architecture
@@ -151,7 +157,7 @@ The following requirements are measurable and testable:
 | SR-05 | The system must ensure that only an event administrator can assign the administrator role to other participants |
 | SR-06 | The system must ensure that only authenticated users can hold the administrator role in an event |
 | SR-07 | The system must allow any event administrator to create fictitious participants for that event |
-| SR-08 | The system must assign a unique alphanumeric code to every created event |
+| SR-08 | The system must assign a unique 8-character alphanumeric code (uppercase letters A–Z and digits 0–9) to every created event |
 | SR-09 | The system must allow any event administrator to create a new expense |
 | SR-10 | The system must allow specifying which participants share the cost of a registered expense |
 | SR-11 | The system must allow specifying which participant paid for a registered expense |
@@ -168,3 +174,6 @@ The following requirements are measurable and testable:
 | SR-22 | The system must allow setting the sender and recipient of a movement |
 | SR-23 | The balance calculation must account for: amounts paid by users in registered expenses, amounts owed by users in registered expenses, and money transferred in each registered movement |
 | SR-24 | The system must use fresh and fun language throughout the user interface |
+| SR-25 | The system must support an optional photo for each event, and display a default placeholder image for events that do not have a custom photo |
+| SR-26 | Upon event creation, the system must automatically register the creator as a participant of the event |
+| SR-27 | Forms for creating entities must present fields in a sequential step-by-step flow (one question at a time), rather than displaying all fields simultaneously |
