@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "migrate": "node --env-file=.env.local src/db/migrate.js"
+    "migrate": "node --env-file=.env.local src/db/migrate.js",
+    "migrate:test": "node --env-file=.env.test src/db/migrate.js",
+    "test": "node --env-file=.env.test node_modules/.bin/vitest run"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
@@ -22,6 +24,7 @@
   },
   "devDependencies": {
     "eslint": "^9",
-    "eslint-config-next": "16.2.4"
+    "eslint-config-next": "16.2.4",
+    "vitest": "^4.1.5"
   }
 }
