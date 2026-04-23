@@ -92,10 +92,12 @@ A web application accessible from anywhere in the world where users can create *
 - The system must enforce that only authenticated users can hold the administrator role
 
 ### 5.4 Expenses
-- The system must allow any administrator to create a new expense in an event
-- The system must allow any administrator to delete an expense
-- The system must allow specifying: description, amount, date, who paid, and among whom the expense is divided
+- The system must allow any registered participant (a participant with an account) to create a new expense in an event; fictitious participants cannot create expenses
+- The system must allow the event administrator or the participant who created the expense to delete it
+- The system must allow specifying: description, amount, date (default today, editable), who paid and the amount paid by each payer, and among whom the expense is divided
 - The system must associate each expense with one or more payers and one or more participants sharing the cost
+- When multiple payers are involved, the system must default to an equal split of the total among them, while allowing the user to override with manual amounts (sum of manual amounts must equal the total)
+- The division among participants sharing the cost is always equal
 - The system must display the full list of expenses for an event
 - The system must display all details of a given expense (date, description, payer, participants)
 
@@ -158,7 +160,7 @@ The following requirements are measurable and testable:
 | SR-06 | The system must ensure that only authenticated users can hold the administrator role in an event |
 | SR-07 | The system must allow any event administrator to create fictitious participants for that event |
 | SR-08 | The system must assign a unique 8-character alphanumeric code (uppercase letters A–Z and digits 0–9) to every created event |
-| SR-09 | The system must allow any event administrator to create a new expense |
+| SR-09 | The system must allow any registered participant of an event (one with an account) to create a new expense |
 | SR-10 | The system must allow specifying which participants share the cost of a registered expense |
 | SR-11 | The system must allow specifying which participant paid for a registered expense |
 | SR-12 | The system must display a list of all expenses registered for a given event |
@@ -177,3 +179,6 @@ The following requirements are measurable and testable:
 | SR-25 | The system must support an optional photo for each event, and display a default placeholder image for events that do not have a custom photo |
 | SR-26 | Upon event creation, the system must automatically register the creator as a participant of the event |
 | SR-27 | Forms for creating entities must present fields in a sequential step-by-step flow (one question at a time), rather than displaying all fields simultaneously |
+| SR-28 | Only the event administrator or the participant who created an expense may delete it |
+| SR-29 | When an expense has multiple payers, the system must default to dividing the total equally among them, and must allow the user to override with manually specified amounts whose sum equals the total |
+| SR-30 | The date of an expense must default to the current date but must be user-editable |
