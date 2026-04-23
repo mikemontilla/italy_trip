@@ -1,9 +1,14 @@
+import Link from "next/link";
+
 const PLACEHOLDER = "/placeholders/event.svg";
 
 export default function EventCard({ event }) {
   const photo = event.photo_path || PLACEHOLDER;
   return (
-    <div className="card h-100 shadow-sm border-0 overflow-hidden">
+    <Link
+      href={`/events/${event.id}`}
+      className="card h-100 shadow-sm border-0 overflow-hidden text-decoration-none"
+    >
       <div style={{ aspectRatio: "16 / 9", backgroundColor: "var(--color-warm-gray)" }}>
         <img
           src={photo}
@@ -31,6 +36,6 @@ export default function EventCard({ event }) {
           <p className="card-text text-muted small mb-0">{event.description}</p>
         )}
       </div>
-    </div>
+    </Link>
   );
 }

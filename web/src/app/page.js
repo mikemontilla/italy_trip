@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { listEventsForUser } from "@/lib/events";
 import EventCard from "@/components/EventCard";
 import CreateEventFlow from "@/components/CreateEventFlow";
+import JoinEventFlow from "@/components/JoinEventFlow";
 
 export default async function HomePage() {
   const session = await auth();
@@ -20,7 +21,10 @@ export default async function HomePage() {
               : `Tienes ${events.length} viaje${events.length === 1 ? "" : "s"} en marcha.`}
           </p>
         </div>
-        <CreateEventFlow />
+        <div className="d-flex gap-2 flex-wrap">
+          <JoinEventFlow />
+          <CreateEventFlow />
+        </div>
       </div>
 
       {events.length === 0 ? (

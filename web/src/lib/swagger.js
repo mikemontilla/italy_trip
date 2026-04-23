@@ -13,6 +13,7 @@ const options = {
     tags: [
       { name: "System", description: "Health and infrastructure" },
       { name: "Events", description: "Group expense events" },
+      { name: "Participants", description: "Event participants (registered and fictitious)" },
     ],
     components: {
       schemas: {
@@ -28,6 +29,33 @@ const options = {
             created_by_user_id: { type: "integer" },
             created_at:         { type: "string", format: "date-time" },
             finalized_at:       { type: "string", format: "date-time", nullable: true },
+          },
+        },
+        Participant: {
+          type: "object",
+          properties: {
+            id:        { type: "integer" },
+            type:      { type: "string", enum: ["registered", "fictitious"] },
+            role:      { type: "string", enum: ["admin", "participant"] },
+            joined_at: { type: "string", format: "date-time" },
+            user: {
+              type: "object",
+              nullable: true,
+              properties: {
+                id:         { type: "integer" },
+                name:       { type: "string" },
+                email:      { type: "string" },
+                avatar_url: { type: "string", nullable: true },
+              },
+            },
+            fictitious: {
+              type: "object",
+              nullable: true,
+              properties: {
+                id:   { type: "integer" },
+                name: { type: "string" },
+              },
+            },
           },
         },
       },
