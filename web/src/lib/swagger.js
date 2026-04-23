@@ -14,6 +14,7 @@ const options = {
       { name: "System", description: "Health and infrastructure" },
       { name: "Events", description: "Group expense events" },
       { name: "Participants", description: "Event participants (registered and fictitious)" },
+      { name: "Expenses", description: "Shared expenses within events" },
     ],
     components: {
       schemas: {
@@ -54,6 +55,41 @@ const options = {
               properties: {
                 id:   { type: "integer" },
                 name: { type: "string" },
+              },
+            },
+          },
+        },
+        Expense: {
+          type: "object",
+          properties: {
+            id:                               { type: "integer" },
+            event_id:                         { type: "integer" },
+            description:                      { type: "string" },
+            amount:                           { type: "string", description: "DECIMAL(12,2) serialized as string" },
+            expense_date:                     { type: "string", format: "date" },
+            created_by_event_participant_id:  { type: "integer" },
+            created_at:                       { type: "string", format: "date-time" },
+            payers: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  id:             { type: "integer" },
+                  participant_id: { type: "integer" },
+                  name:           { type: "string" },
+                  amount:         { type: "string" },
+                },
+              },
+            },
+            splits: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  id:             { type: "integer" },
+                  participant_id: { type: "integer" },
+                  name:           { type: "string" },
+                },
               },
             },
           },
