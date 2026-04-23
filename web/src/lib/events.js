@@ -69,3 +69,15 @@ export async function getEventById(eventId, userId) {
   );
   return rows[0] ?? null;
 }
+
+export async function setEventPhoto(eventId, userId, photoPath) {
+  const result = await query(
+    `UPDATE events e
+     JOIN event_participants ep
+       ON ep.event_id = e.id AND ep.user_id = ? AND ep.role = 'admin'
+     SET e.photo_path = ?
+     WHERE e.id = ?`,
+    [userId, photoPath, eventId]
+  );
+  return result.affectedRows > 0;
+}

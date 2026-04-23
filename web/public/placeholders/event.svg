@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" width="400" height="225">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#88A2AA"/>
+      <stop offset="1" stop-color="#0F1A20"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="225" fill="url(#bg)"/>
+  <g transform="translate(200 100)" fill="#E2856E">
+    <path d="M-36 0 L-12 -4 L-4 -26 L4 -26 L-2 -4 L20 -4 L30 -14 L36 -14 L30 0 L36 14 L30 14 L20 4 L-2 4 L4 26 L-4 26 L-12 4 L-36 0 Z"/>
+  </g>
+  <text x="200" y="170" text-anchor="middle" fill="#ADA296" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" letter-spacing="2">UN NUEVO VIAJE</text>
+</svg>
