@@ -5,10 +5,13 @@ import { getEventById } from "@/lib/events";
 import { listParticipants } from "@/lib/participants";
 import { listExpenses } from "@/lib/expenses";
 import { listMovements } from "@/lib/movements";
+import { calculateEventBalances } from "@/lib/balances";
 import EventCodeShare from "@/components/EventCodeShare";
 import AddParticipantFlow from "@/components/AddParticipantFlow";
 import ExpensesSection from "@/components/ExpensesSection";
 import MovementsSection from "@/components/MovementsSection";
+import BalanceStatusBar from "@/components/BalanceStatusBar";
+import ParticipantsList from "@/components/ParticipantsList";
 
 const PLACEHOLDER = "/placeholders/event.svg";
 
@@ -32,6 +35,7 @@ export default async function EventDetailPage({ params }) {
   );
   const expenses = await listExpenses(eventId, userId);
   const movements = await listMovements(eventId, userId);
+  const balances = await calculateEventBalances(eventId, userId);
 
   return (
     <div className="container py-4">
@@ -64,6 +68,8 @@ export default async function EventDetailPage({ params }) {
         </div>
       </div>
 
+      <BalanceStatusBar balances={balances} />
+
       <section className="mb-4">
         <EventCodeShare code={event.code} />
       </section>
@@ -75,11 +81,11 @@ export default async function EventDetailPage({ params }) {
           </h2>
           {currentIsAdmin && <AddParticipantFlow eventId={event.id} />}
         </div>
-        <div className="list-group">
-          {participants.map((p) => (
-            <ParticipantRow key={p.id} participant={p} />
-          ))}
-        </div>
+        <ParticipantsList
+          eventId={event.id}
+          participants={participants}
+          balances={balances}
+        />
       </section>
 
       <div className="mb-5">
@@ -102,65 +108,3 @@ export default async function EventDetailPage({ params }) {
   );
 }
 
-function ParticipantRow({ participant }) {
-  const isAdmin = participant.role === "admin";
-  const name =
-    participant.type === "registered" ? participant.user.name : participant.fictitious.name;
-  const sublabel =
-    participant.type === "registered" ? participant.user.email : "Participante ficticio";
-
-  return (
-    <div className="list-group-item d-flex align-items-center gap-3">
-      <Avatar participant={participant} />
-      <div className="flex-grow-1 min-w-0">
-        <div className="fw-semibold text-truncate" style={{ color: "var(--color-dark-navy)" }}>
-          {name}
-        </div>
-        <div className="small text-muted text-truncate">{sublabel}</div>
-      </div>
-      {isAdmin && (
-        <span
-          className="badge"
-          style={{ backgroundColor: "var(--color-terracotta)", color: "#fff" }}
-        >
-          Admin
-        </span>
-      )}
-    </div>
-  );
-}
-
-function Avatar({ participant }) {
-  const size = 40;
-  const common = {
-    width: size,
-    height: size,
-    borderRadius: "50%",
-    flexShrink: 0,
-  };
-  if (participant.type === "registered" && participant.user.avatar_url) {
-    return (
-      <img
-        src={participant.user.avatar_url}
-        alt=""
-        style={{ ...common, objectFit: "cover" }}
-      />
-    );
-  }
-  const initial =
-    participant.type === "registered"
-      ? participant.user.name?.[0]?.toUpperCase()
-      : participant.fictitious.name?.[0]?.toUpperCase();
-  return (
-    <div
-      className="d-flex align-items-center justify-content-center fw-bold"
-      style={{
-        ...common,
-        backgroundColor: "var(--color-steel-blue)",
-        color: "#fff",
-      }}
-    >
-      {initial ?? "?"}
-    </div>
-  );
-}
