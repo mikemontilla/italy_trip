@@ -3,8 +3,10 @@ import { notFound } from "next/navigation";
 import { auth } from "@/auth";
 import { getEventById } from "@/lib/events";
 import { listParticipants } from "@/lib/participants";
+import { listExpenses } from "@/lib/expenses";
 import EventCodeShare from "@/components/EventCodeShare";
 import AddParticipantFlow from "@/components/AddParticipantFlow";
+import ExpensesSection from "@/components/ExpensesSection";
 
 const PLACEHOLDER = "/placeholders/event.svg";
 
@@ -23,6 +25,10 @@ export default async function EventDetailPage({ params }) {
   const currentIsAdmin = participants.some(
     (p) => p.type === "registered" && p.user.id === userId && p.role === "admin"
   );
+  const currentParticipant = participants.find(
+    (p) => p.type === "registered" && p.user.id === userId
+  );
+  const expenses = await listExpenses(eventId, userId);
 
   return (
     <div className="container py-4">
@@ -59,7 +65,7 @@ export default async function EventDetailPage({ params }) {
         <EventCodeShare code={event.code} />
       </section>
 
-      <section>
+      <section className="mb-5">
         <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
           <h2 className="h5 fw-bold mb-0" style={{ color: "var(--color-dark-navy)" }}>
             Participantes ({participants.length})
@@ -72,6 +78,14 @@ export default async function EventDetailPage({ params }) {
           ))}
         </div>
       </section>
+
+      <ExpensesSection
+        eventId={event.id}
+        initialExpenses={expenses}
+        participants={participants}
+        currentParticipantId={currentParticipant?.id ?? null}
+        isAdmin={currentIsAdmin}
+      />
     </div>
   );
 }
