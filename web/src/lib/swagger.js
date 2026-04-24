@@ -15,6 +15,7 @@ const options = {
       { name: "Events", description: "Group expense events" },
       { name: "Participants", description: "Event participants (registered and fictitious)" },
       { name: "Expenses", description: "Shared expenses within events" },
+      { name: "Movements", description: "Transfers and loans between participants" },
     ],
     components: {
       schemas: {
@@ -55,6 +56,42 @@ const options = {
               properties: {
                 id:   { type: "integer" },
                 name: { type: "string" },
+              },
+            },
+          },
+        },
+        Movement: {
+          type: "object",
+          properties: {
+            id:            { type: "integer" },
+            event_id:      { type: "integer" },
+            type:          { type: "string", enum: ["transfer", "loan"] },
+            amount:        { type: "string", description: "DECIMAL(12,2) serialized as string" },
+            movement_date: { type: "string", format: "date" },
+            bank:          { type: "string", nullable: true },
+            note:          { type: "string", nullable: true },
+            created_by_event_participant_id: { type: "integer" },
+            created_at:    { type: "string", format: "date-time" },
+            sender: {
+              type: "object",
+              properties: {
+                participant_id: { type: "integer" },
+                name:           { type: "string" },
+              },
+            },
+            recipient: {
+              type: "object",
+              properties: {
+                participant_id: { type: "integer" },
+                name:           { type: "string" },
+              },
+            },
+            created_by: {
+              type: "object",
+              description: "Present on detail responses only",
+              properties: {
+                participant_id: { type: "integer" },
+                name:           { type: "string" },
               },
             },
           },
