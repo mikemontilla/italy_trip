@@ -215,13 +215,19 @@ Records a direct money transfer or loan between two participants within an event
 The net balance of a participant within an event is computed as:
 
 ```
-balance = total_paid - total_owed + total_received - total_sent
+balance = total_paid - total_owed + total_sent - total_received
 ```
 
 Where:
 - **total_paid** = SUM of `expense_payers.amount` for this participant
 - **total_owed** = SUM of (`expenses.amount` / number of splits) for each expense this participant appears in `expense_splits`
-- **total_received** = SUM of `movements.amount` where this participant is the recipient
 - **total_sent** = SUM of `movements.amount` where this participant is the sender
+- **total_received** = SUM of `movements.amount` where this participant is the recipient
 
-A positive balance means the participant is owed money. A negative balance means they owe money.
+A positive balance means the participant is owed money by the group. A negative balance means they owe money to the group.
+
+Sign rationale for movements (both `transfer` and `loan` behave the same):
+- **Sending money** always increases the sender's balance — either they are settling an existing debt (debt toward 0 from the negative side) or they are extending a loan (creating a new credit in their favor).
+- **Receiving money** always decreases the recipient's balance — either someone paid them what they were owed (credit toward 0 from the positive side) or they took a loan (creating a new debt).
+
+**Invariant:** at all times, the sum of every participant's balance within an event must equal zero. Equivalently, the total of positive balances must exactly cancel out the total of negative balances. Any deviation indicates a bug in the calculation or in the data. This invariant should be asserted in tests.
