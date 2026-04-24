@@ -102,10 +102,13 @@ A web application accessible from anywhere in the world where users can create *
 - The system must display all details of a given expense (date, description, payer, participants)
 
 ### 5.5 Movements (Transfers & Loans)
-- The system must allow any administrator to register a movement in an event
-- The system must allow any administrator to delete a movement
+- The system must allow any registered participant (with an account) to register a movement in an event; fictitious participants cannot register movements
+- The system must allow only the event administrator to delete a movement
 - The system must support two movement types: **loan** and **debt settlement** (transfer)
-- Each movement must specify: type, sender, recipient, amount, and optionally a bank and a note
+- Each movement must specify: type, sender, recipient, amount, date (default today, editable), and optionally a bank and a note
+- The sender and recipient can be any participants of the event (registered or fictitious)
+- The system must record which participant registered each movement
+- The detail view of a movement must display the participant who registered it so the administrator can make informed moderation decisions
 
 ### 5.6 Balances
 - The system must calculate the balance for each participant, accounting for:
@@ -170,7 +173,7 @@ The following requirements are measurable and testable:
 | SR-16 | The system must allow any user to view their personal expense balance: total paid, total owed, and net balance |
 | SR-17 | The system must allow any user to view the balance of all participants in an event |
 | SR-18 | The system must allow any event administrator to generate a settlement plan showing at least 2 options for how participants can transfer money so all balances reach zero |
-| SR-19 | The system must allow any event administrator to register a movement in an event |
+| SR-19 | The system must allow any registered participant of an event (one with an account) to register a movement |
 | SR-20 | The system must allow classifying a movement as either a loan or a debt settlement |
 | SR-21 | The system must allow setting the monetary amount of a movement |
 | SR-22 | The system must allow setting the sender and recipient of a movement |
@@ -182,3 +185,7 @@ The following requirements are measurable and testable:
 | SR-28 | Only the event administrator or the participant who created an expense may delete it |
 | SR-29 | When an expense has multiple payers, the system must default to dividing the total equally among them, and must allow the user to override with manually specified amounts whose sum equals the total |
 | SR-30 | The date of an expense must default to the current date but must be user-editable |
+| SR-31 | Only the event administrator may delete a movement |
+| SR-32 | The system must record which event participant registered each movement |
+| SR-33 | The detail view of a movement must display the name of the participant who registered it |
+| SR-34 | The date of a movement must default to the current date but must be user-editable |

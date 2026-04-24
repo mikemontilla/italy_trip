@@ -196,6 +196,7 @@ Records a direct money transfer or loan between two participants within an event
 | `recipient_event_participant_id` | INT UNSIGNED FK → event_participants | The participant who received the money or the loan |
 | `bank` | VARCHAR(255) NULL | Optional name of the bank or payment platform used (e.g. "Nequi", "Bancolombia") |
 | `note` | TEXT NULL | Optional free-text note about the movement |
+| `created_by_event_participant_id` | INT UNSIGNED FK → event_participants | The participant who registered the movement in the app (may differ from sender/recipient). Shown in the movement detail so admins can make informed moderation decisions |
 | `movement_date` | DATE | The date the money actually moved |
 | `created_at` | TIMESTAMP | Date and time when the movement was registered in the system |
 
@@ -205,6 +206,7 @@ Records a direct money transfer or loan between two participants within an event
 **Indexes:**
 - `idx_movements_event` — listing all movements for an event is the primary read pattern.
 - `idx_movements_sender` / `idx_movements_recipient` — used in balance calculation to sum all money sent or received by a specific participant.
+- `idx_movements_created_by` — supports the JOIN used to display the registrant's name in the movement detail view.
 
 ---
 
