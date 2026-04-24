@@ -16,6 +16,7 @@ const options = {
       { name: "Participants", description: "Event participants (registered and fictitious)" },
       { name: "Expenses", description: "Shared expenses within events" },
       { name: "Movements", description: "Transfers and loans between participants" },
+      { name: "Balances", description: "Per-participant balances and breakdown" },
     ],
     components: {
       schemas: {
@@ -56,6 +57,45 @@ const options = {
               properties: {
                 id:   { type: "integer" },
                 name: { type: "string" },
+              },
+            },
+          },
+        },
+        Balance: {
+          type: "object",
+          properties: {
+            participant_id: { type: "integer" },
+            name:           { type: "string" },
+            type:           { type: "string", enum: ["registered", "fictitious"] },
+            role:           { type: "string", enum: ["admin", "participant"] },
+            paid:           { type: "string", description: "Total paid in COP (DECIMAL serialized as string)" },
+            owed:           { type: "string", description: "Total share owed in COP" },
+            sent:           { type: "string" },
+            received:       { type: "string" },
+            balance:        { type: "string", description: "paid − owed + sent − received" },
+          },
+        },
+        BalanceDetail: {
+          type: "object",
+          properties: {
+            participant: { $ref: "#/components/schemas/Balance" },
+            totals: {
+              type: "object",
+              properties: {
+                paid:     { type: "string" },
+                owed:     { type: "string" },
+                sent:     { type: "string" },
+                received: { type: "string" },
+                balance:  { type: "string" },
+              },
+            },
+            detail: {
+              type: "object",
+              properties: {
+                paid_expenses: { type: "array", items: { type: "object" } },
+                owed_expenses: { type: "array", items: { type: "object" } },
+                sent_movements: { type: "array", items: { type: "object" } },
+                received_movements: { type: "array", items: { type: "object" } },
               },
             },
           },
