@@ -4,9 +4,11 @@ import { auth } from "@/auth";
 import { getEventById } from "@/lib/events";
 import { listParticipants } from "@/lib/participants";
 import { listExpenses } from "@/lib/expenses";
+import { listMovements } from "@/lib/movements";
 import EventCodeShare from "@/components/EventCodeShare";
 import AddParticipantFlow from "@/components/AddParticipantFlow";
 import ExpensesSection from "@/components/ExpensesSection";
+import MovementsSection from "@/components/MovementsSection";
 
 const PLACEHOLDER = "/placeholders/event.svg";
 
@@ -29,6 +31,7 @@ export default async function EventDetailPage({ params }) {
     (p) => p.type === "registered" && p.user.id === userId
   );
   const expenses = await listExpenses(eventId, userId);
+  const movements = await listMovements(eventId, userId);
 
   return (
     <div className="container py-4">
@@ -79,11 +82,20 @@ export default async function EventDetailPage({ params }) {
         </div>
       </section>
 
-      <ExpensesSection
+      <div className="mb-5">
+        <ExpensesSection
+          eventId={event.id}
+          initialExpenses={expenses}
+          participants={participants}
+          currentParticipantId={currentParticipant?.id ?? null}
+          isAdmin={currentIsAdmin}
+        />
+      </div>
+
+      <MovementsSection
         eventId={event.id}
-        initialExpenses={expenses}
+        initialMovements={movements}
         participants={participants}
-        currentParticipantId={currentParticipant?.id ?? null}
         isAdmin={currentIsAdmin}
       />
     </div>
