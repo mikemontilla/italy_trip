@@ -189,3 +189,4 @@ The following requirements are measurable and testable:
 | SR-32 | The system must record which event participant registered each movement |
 | SR-33 | The detail view of a movement must display the name of the participant who registered it |
 | SR-34 | The date of a movement must default to the current date but must be user-editable |
+| SR-35 | The sum of all participant balances within an event must always equal zero (positive balances must fully cancel out negative balances); this invariant must be asserted in tests |
