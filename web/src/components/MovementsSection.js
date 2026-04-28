@@ -22,6 +22,7 @@ export default function MovementsSection({
   initialMovements,
   participants,
   isAdmin,
+  isFinalized,
 }) {
   const router = useRouter();
   const [movements, setMovements] = useState(initialMovements);
@@ -46,11 +47,13 @@ export default function MovementsSection({
         <h2 className="h5 fw-bold mb-0" style={{ color: palette.dark }}>
           Movimientos ({movements.length})
         </h2>
-        <AddMovementFlow
-          eventId={eventId}
-          participants={participants}
-          onCreated={handleMutation}
-        />
+        {!isFinalized && (
+          <AddMovementFlow
+            eventId={eventId}
+            participants={participants}
+            onCreated={handleMutation}
+          />
+        )}
       </div>
 
       {movements.length === 0 ? (
@@ -104,6 +107,7 @@ export default function MovementsSection({
           eventId={eventId}
           movementId={openDetailId}
           isAdmin={isAdmin}
+          isFinalized={isFinalized}
           onClose={() => setOpenDetailId(null)}
           onDeleted={() => {
             setOpenDetailId(null);

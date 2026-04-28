@@ -24,6 +24,7 @@ export default function ExpensesSection({
   participants,
   currentParticipantId,
   isAdmin,
+  isFinalized,
 }) {
   const router = useRouter();
   const [expenses, setExpenses] = useState(initialExpenses);
@@ -53,11 +54,13 @@ export default function ExpensesSection({
         <h2 className="h5 fw-bold mb-0" style={{ color: palette.dark }}>
           Gastos ({expenses.length})
         </h2>
-        <AddExpenseFlow
-          eventId={eventId}
-          participants={participants}
-          onCreated={handleMutation}
-        />
+        {!isFinalized && (
+          <AddExpenseFlow
+            eventId={eventId}
+            participants={participants}
+            onCreated={handleMutation}
+          />
+        )}
       </div>
 
       <div className="mb-3">
@@ -114,6 +117,7 @@ export default function ExpensesSection({
           expenseId={openDetailId}
           isAdmin={isAdmin}
           currentParticipantId={currentParticipantId}
+          isFinalized={isFinalized}
           onClose={() => setOpenDetailId(null)}
           onDeleted={() => {
             setOpenDetailId(null);

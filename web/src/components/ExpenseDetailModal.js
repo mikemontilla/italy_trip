@@ -14,6 +14,7 @@ export default function ExpenseDetailModal({
   expenseId,
   isAdmin,
   currentParticipantId,
+  isFinalized,
   onClose,
   onDeleted,
 }) {
@@ -50,6 +51,7 @@ export default function ExpenseDetailModal({
 
   const canDelete =
     expense &&
+    !isFinalized &&
     (isAdmin || expense.created_by_event_participant_id === currentParticipantId);
 
   return (

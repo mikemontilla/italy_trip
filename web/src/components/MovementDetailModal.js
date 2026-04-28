@@ -20,6 +20,7 @@ export default function MovementDetailModal({
   eventId,
   movementId,
   isAdmin,
+  isFinalized,
   onClose,
   onDeleted,
 }) {
@@ -158,7 +159,7 @@ export default function MovementDetailModal({
           )}
         </div>
 
-        {isAdmin && movement && (
+        {isAdmin && !isFinalized && movement && (
           <div className="px-4 pb-4 d-flex justify-content-end">
             <button
               type="button"
