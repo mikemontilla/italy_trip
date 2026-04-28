@@ -56,6 +56,9 @@ export async function POST(request) {
   if (result.error === "event_not_found") {
     return NextResponse.json({ error: "event_not_found" }, { status: 404 });
   }
+  if (result.error === "event_finalized") {
+    return NextResponse.json({ error: "event_finalized" }, { status: 409 });
+  }
   if (result.error === "already_joined") {
     return NextResponse.json(result.event, { status: 200 });
   }

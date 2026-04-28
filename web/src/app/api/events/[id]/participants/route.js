@@ -111,5 +111,8 @@ export async function POST(request, ctx) {
   if (result.error === "forbidden") {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
+  if (result.error === "event_finalized") {
+    return NextResponse.json({ error: "event_finalized" }, { status: 409 });
+  }
   return NextResponse.json(result.participant, { status: 201 });
 }

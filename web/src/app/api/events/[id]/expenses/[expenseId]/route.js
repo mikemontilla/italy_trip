@@ -77,5 +77,8 @@ export async function DELETE(_request, ctx) {
   if (result.error === "forbidden") {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
+  if (result.error === "event_finalized") {
+    return NextResponse.json({ error: "event_finalized" }, { status: 409 });
+  }
   return new Response(null, { status: 204 });
 }
