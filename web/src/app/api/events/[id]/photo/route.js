@@ -92,8 +92,11 @@ export async function POST(request, ctx) {
     Buffer.from(await file.arrayBuffer())
   );
 
-  const updated = await setEventPhoto(eventId, session.user.dbUserId, publicPath);
-  if (!updated) {
+  const result = await setEventPhoto(eventId, session.user.dbUserId, publicPath);
+  if (result.error === "event_finalized") {
+    return NextResponse.json({ error: "event_finalized" }, { status: 409 });
+  }
+  if (!result.updated) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
