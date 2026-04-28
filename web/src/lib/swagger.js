@@ -17,6 +17,7 @@ const options = {
       { name: "Expenses", description: "Shared expenses within events" },
       { name: "Movements", description: "Transfers and loans between participants" },
       { name: "Balances", description: "Per-participant balances and breakdown" },
+      { name: "Settlements", description: "Suggested transfers to bring all balances to zero" },
     ],
     components: {
       schemas: {
@@ -98,6 +99,39 @@ const options = {
                 received_movements: { type: "array", items: { type: "object" } },
               },
             },
+          },
+        },
+        SettlementTransfer: {
+          type: "object",
+          properties: {
+            from_participant_id: { type: "integer" },
+            from_name:           { type: "string" },
+            to_participant_id:   { type: "integer" },
+            to_name:             { type: "string" },
+            amount:              { type: "string", description: "Amount in COP (DECIMAL serialized as string)" },
+          },
+        },
+        SettlementOption: {
+          type: "object",
+          properties: {
+            transfers: {
+              type: "array",
+              items: { $ref: "#/components/schemas/SettlementTransfer" },
+            },
+            stats: {
+              type: "object",
+              properties: {
+                transfer_count:                 { type: "integer" },
+                max_transfers_per_participant:  { type: "integer" },
+              },
+            },
+          },
+        },
+        Settlement: {
+          type: "object",
+          properties: {
+            option1: { $ref: "#/components/schemas/SettlementOption" },
+            option2: { $ref: "#/components/schemas/SettlementOption" },
           },
         },
         Movement: {
