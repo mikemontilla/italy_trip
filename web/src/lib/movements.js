@@ -1,4 +1,5 @@
 import { query } from "@/lib/db";
+import { isEventFinalized } from "@/lib/events";
 
 const VALID_TYPES = new Set(["transfer", "loan"]);
 
@@ -75,6 +76,8 @@ export async function createMovement({
 }) {
   const actor = await getRequesterParticipant(eventId, actorUserId);
   if (!actor) return { error: "forbidden" };
+
+  if (await isEventFinalized(eventId)) return { error: "event_finalized" };
 
   if (!VALID_TYPES.has(type)) return { error: "invalid_type" };
 
@@ -176,6 +179,8 @@ export async function deleteMovement(movementId, actorUserId) {
   const actor = await getRequesterParticipant(movement.event_id, actorUserId);
   if (!actor) return { error: "forbidden" };
   if (actor.role !== "admin") return { error: "forbidden" };
+
+  if (await isEventFinalized(movement.event_id)) return { error: "event_finalized" };
 
   await query(`DELETE FROM movements WHERE id = ?`, [movementId]);
   return { deleted: true };

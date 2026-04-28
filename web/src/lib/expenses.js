@@ -1,4 +1,5 @@
 import { getConnection, query } from "@/lib/db";
+import { isEventFinalized } from "@/lib/events";
 
 const EXPENSE_COLUMNS = `
   e.id, e.event_id, e.description, e.amount, e.expense_date,
@@ -79,6 +80,8 @@ export async function createExpense({
 }) {
   const actor = await getRequesterParticipant(eventId, actorUserId);
   if (!actor) return { error: "forbidden" };
+
+  if (await isEventFinalized(eventId)) return { error: "event_finalized" };
 
   const dateObj = expenseDate instanceof Date ? expenseDate : new Date(expenseDate);
   const validationError = validateInput({
@@ -233,6 +236,8 @@ export async function deleteExpense(expenseId, actorUserId) {
   const isCreator = actor.id === expense.created_by_event_participant_id;
   const isAdmin = actor.role === "admin";
   if (!isCreator && !isAdmin) return { error: "forbidden" };
+
+  if (await isEventFinalized(expense.event_id)) return { error: "event_finalized" };
 
   await query(`DELETE FROM expenses WHERE id = ?`, [expenseId]);
   return { deleted: true };

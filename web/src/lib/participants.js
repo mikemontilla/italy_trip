@@ -1,4 +1,5 @@
 import { getConnection, query } from "@/lib/db";
+import { isEventFinalized } from "@/lib/events";
 
 const PARTICIPANT_COLUMNS = `
   ep.id, ep.role, ep.joined_at,
@@ -65,6 +66,7 @@ export async function listParticipants(eventId, requesterUserId) {
 
 export async function addFictitiousParticipant(eventId, adminUserId, name) {
   if (!(await isAdmin(eventId, adminUserId))) return { error: "forbidden" };
+  if (await isEventFinalized(eventId)) return { error: "event_finalized" };
 
   const conn = await getConnection();
   try {
@@ -100,10 +102,11 @@ export async function addFictitiousParticipant(eventId, adminUserId, name) {
 
 export async function joinEventByCode(code, userId) {
   const [event] = await query(
-    `SELECT id, code, name FROM events WHERE code = ?`,
+    `SELECT id, code, name, status FROM events WHERE code = ?`,
     [code]
   );
   if (!event) return { error: "event_not_found" };
+  if (event.status === "finalized") return { error: "event_finalized" };
 
   try {
     await query(
