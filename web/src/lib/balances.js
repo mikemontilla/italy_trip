@@ -4,7 +4,7 @@ function toCents(value) {
   return Math.round(Number(value) * 100);
 }
 
-function centsToAmount(cents) {
+export function centsToAmount(cents) {
   const sign = cents < 0 ? "-" : "";
   const abs = Math.abs(cents);
   const whole = Math.floor(abs / 100);
@@ -21,7 +21,7 @@ async function isParticipant(eventId, userId) {
   return rows.length > 0;
 }
 
-async function computeTotalsInCents(eventId) {
+export async function computeTotalsInCents(eventId) {
   const participants = await query(
     `SELECT ep.id, ep.role, ep.user_id,
             u.name  AS user_name,
