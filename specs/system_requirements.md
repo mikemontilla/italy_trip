@@ -127,8 +127,9 @@ A web application accessible from anywhere in the world where users can create *
 ### 5.8 Event Status & Finalization
 - The system must always display a status indicator showing whether the event has an outstanding balance or is fully settled
 - The option to finalize an event must only appear when all balances are zero
-- Once finalized, no participant (other than the administrator) can perform further actions on the event
+- Once finalized, the event is fully read-only: no participant — including administrators — can register, modify, or delete expenses, movements, or participants
 - Finalized events must remain accessible in read-only mode for all participants
+- The system must allow administrators to **reopen** a finalized event, returning it to active status so that further actions become possible again
 
 ### 5.9 User Interface Conventions
 - Forms for creating entities (events, participants, expenses, movements) must guide the user through a step-by-step flow that presents one question at a time, rather than displaying all fields simultaneously
@@ -190,3 +191,6 @@ The following requirements are measurable and testable:
 | SR-33 | The detail view of a movement must display the name of the participant who registered it |
 | SR-34 | The date of a movement must default to the current date but must be user-editable |
 | SR-35 | The sum of all participant balances within an event must always equal zero (positive balances must fully cancel out negative balances); this invariant must be asserted in tests |
+| SR-36 | An event may be finalized only when every participant's balance is exactly zero |
+| SR-37 | While an event is in `finalized` status, the system must reject every mutation on it (creation, modification, or deletion of expenses, movements, participants, or event metadata) regardless of the actor's role |
+| SR-38 | Only an event administrator may reopen a finalized event, returning its status to `active` |
