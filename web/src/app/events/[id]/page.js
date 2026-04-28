@@ -12,6 +12,7 @@ import ExpensesSection from "@/components/ExpensesSection";
 import MovementsSection from "@/components/MovementsSection";
 import BalanceStatusBar from "@/components/BalanceStatusBar";
 import SettlementButton from "@/components/SettlementButton";
+import FinalizationControls from "@/components/FinalizationControls";
 import ParticipantsList from "@/components/ParticipantsList";
 
 const PLACEHOLDER = "/placeholders/event.svg";
@@ -41,6 +42,7 @@ export default async function EventDetailPage({ params }) {
   const expenses = await listExpenses(eventId, userId);
   const movements = await listMovements(eventId, userId);
   const balances = await calculateEventBalances(eventId, userId);
+  const isFinalized = event.status === "finalized";
 
   return (
     <div className="container py-4">
@@ -64,9 +66,19 @@ export default async function EventDetailPage({ params }) {
           />
         </div>
         <div className="card-body">
-          <h1 className="fw-bold mb-2" style={{ color: "var(--color-dark-navy)" }}>
-            {event.name}
-          </h1>
+          <div className="d-flex align-items-center gap-2 flex-wrap mb-2">
+            <h1 className="fw-bold mb-0" style={{ color: "var(--color-dark-navy)" }}>
+              {event.name}
+            </h1>
+            {isFinalized && (
+              <span
+                className="badge"
+                style={{ backgroundColor: "var(--color-dark-navy)", color: "#fff" }}
+              >
+                Finalizado
+              </span>
+            )}
+          </div>
           {event.description && (
             <p className="text-muted mb-0">{event.description}</p>
           )}
@@ -75,10 +87,18 @@ export default async function EventDetailPage({ params }) {
 
       <BalanceStatusBar balances={balances} />
 
-      {currentIsAdmin && hasPendingBalance(balances) && (
+      {currentIsAdmin && !isFinalized && hasPendingBalance(balances) && (
         <div className="mb-4 d-flex justify-content-end">
           <SettlementButton eventId={event.id} />
         </div>
+      )}
+
+      {currentIsAdmin && (
+        <FinalizationControls
+          eventId={event.id}
+          status={event.status}
+          balances={balances}
+        />
       )}
 
       <section className="mb-4">
@@ -90,7 +110,7 @@ export default async function EventDetailPage({ params }) {
           <h2 className="h5 fw-bold mb-0" style={{ color: "var(--color-dark-navy)" }}>
             Participantes ({participants.length})
           </h2>
-          {currentIsAdmin && <AddParticipantFlow eventId={event.id} />}
+          {currentIsAdmin && !isFinalized && <AddParticipantFlow eventId={event.id} />}
         </div>
         <ParticipantsList
           eventId={event.id}
@@ -106,6 +126,7 @@ export default async function EventDetailPage({ params }) {
           participants={participants}
           currentParticipantId={currentParticipant?.id ?? null}
           isAdmin={currentIsAdmin}
+          isFinalized={isFinalized}
         />
       </div>
 
@@ -114,6 +135,7 @@ export default async function EventDetailPage({ params }) {
         initialMovements={movements}
         participants={participants}
         isAdmin={currentIsAdmin}
+        isFinalized={isFinalized}
       />
     </div>
   );
