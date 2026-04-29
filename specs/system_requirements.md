@@ -191,6 +191,6 @@ The following requirements are measurable and testable:
 | SR-33 | The detail view of a movement must display the name of the participant who registered it |
 | SR-34 | The date of a movement must default to the current date but must be user-editable |
 | SR-35 | The sum of all participant balances within an event must always equal zero (positive balances must fully cancel out negative balances); this invariant must be asserted in tests |
-| SR-36 | An event may be finalized only when every participant's balance is exactly zero |
+| SR-36 | An event may be finalized only when every participant's balance falls within ±1 peso (the rounding tolerance for COP, where sub-peso transactions are not used in practice). The system must apply this same tolerance consistently when displaying the "settled" status indicator and when gating the finalize action |
 | SR-37 | While an event is in `finalized` status, the system must reject every mutation on it (creation, modification, or deletion of expenses, movements, participants, or event metadata) regardless of the actor's role |
 | SR-38 | Only an event administrator may reopen a finalized event, returning its status to `active` |
