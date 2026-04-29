@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { formatCOP, formatDate } from "@/lib/format";
 import { palette } from "@/lib/theme";
+import ErrorBanner from "./ErrorBanner";
 
 export default function ExpenseDetailModal({
   eventId,
@@ -84,14 +85,7 @@ export default function ExpenseDetailModal({
           {!expense && !error && (
             <div className="text-center text-muted">Cargando...</div>
           )}
-          {error && (
-            <div
-              className="p-2 rounded small"
-              style={{ backgroundColor: "rgba(244,44,4,0.1)", color: palette.red }}
-            >
-              {error}
-            </div>
-          )}
+          <ErrorBanner message={error} />
           {expense && (
             <>
               <h4 className="fw-bold mb-1" style={{ color: palette.dark }}>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { formatCOP } from "@/lib/format";
 import { palette } from "@/lib/theme";
+import ErrorBanner from "./ErrorBanner";
 
 const OPTION_LABEL = {
   option1: "Saldar grandes primero",
@@ -63,14 +64,7 @@ export default function SettlementModal({ eventId, onClose }) {
 
         <div className="px-4 py-4" style={{ maxHeight: "70vh", overflowY: "auto" }}>
           {!data && !error && <div className="text-center text-muted">Calculando...</div>}
-          {error && (
-            <div
-              className="p-2 rounded small"
-              style={{ backgroundColor: "rgba(244,44,4,0.1)", color: palette.red }}
-            >
-              {error}
-            </div>
-          )}
+          <ErrorBanner message={error} />
 
           {data && (
             <>

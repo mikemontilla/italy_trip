@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { palette } from "@/lib/theme";
+import ErrorBanner from "./ErrorBanner";
 
 const TOTAL_STEPS = 2;
 
@@ -130,14 +131,7 @@ function Modal({ eventId, onClose }) {
             </>
           )}
 
-          {error && (
-            <div
-              className="mt-3 p-2 rounded small"
-              style={{ backgroundColor: "rgba(244,44,4,0.1)", color: palette.red }}
-            >
-              {error}
-            </div>
-          )}
+          <ErrorBanner message={error} className="mt-3" />
         </div>
 
         <div className="px-4 pb-4 d-flex justify-content-between gap-2">

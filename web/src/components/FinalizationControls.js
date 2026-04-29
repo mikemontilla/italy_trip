@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { allBalancesSettled } from "@/lib/settlement-rules";
+import { translateError } from "@/lib/error-messages";
+import ErrorBanner from "./ErrorBanner";
 
 export default function FinalizationControls({ eventId, status, balances }) {
   const router = useRouter();
@@ -55,11 +57,7 @@ export default function FinalizationControls({ eventId, status, balances }) {
           {busy ? "Reabriendo..." : "Reabrir evento"}
         </button>
       )}
-      {error && (
-        <div className="small" style={{ color: "var(--color-red)" }}>
-          No pudimos completar la acción ({error}).
-        </div>
-      )}
+      <ErrorBanner message={translateError(error)} />
     </div>
   );
 }

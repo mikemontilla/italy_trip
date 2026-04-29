@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { formatCOP, formatDate } from "@/lib/format";
 import { palette } from "@/lib/theme";
+import ErrorBanner from "./ErrorBanner";
 
 const TYPE_LABEL = {
   transfer: "Transferencia",
@@ -83,14 +84,7 @@ export default function MovementDetailModal({
           {!movement && !error && (
             <div className="text-center text-muted">Cargando...</div>
           )}
-          {error && (
-            <div
-              className="p-2 rounded small"
-              style={{ backgroundColor: "rgba(244,44,4,0.1)", color: palette.red }}
-            >
-              {error}
-            </div>
-          )}
+          <ErrorBanner message={error} />
           {movement && (
             <>
               <div className="d-flex align-items-center gap-2 mb-3">
