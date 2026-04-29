@@ -138,6 +138,45 @@ describe("PATCH /api/events/[id]/finalize", () => {
     expect(body.finalized_at).toBeTruthy();
   });
 
+  test("admin can finalize when every balance is within ±1 peso of zero", async () => {
+    const admin = await createTestUser();
+    const m1 = await createTestUser();
+    const m2 = await createTestUser();
+    const event = await newEventFor(admin);
+    const adminPid = await participantIdFor(admin.id, event.id);
+    const m1Pid = await joinAs(m1, event.code);
+    const m2Pid = await joinAs(m2, event.code);
+
+    // 100 split 3 ways: admin owes 33.34, m1 owes 33.33, m2 owes 33.33 (admin gets the extra cent).
+    await registerExpense(admin, event.id, {
+      description: "Hotel",
+      amount: 100,
+      expense_date: "2026-04-20",
+      payers: [{ participant_id: adminPid, amount: 100 }],
+      split_participant_ids: [adminPid, m1Pid, m2Pid],
+    });
+    // m1 over-pays by 1 cent (33.34 instead of the 33.33 they owe).
+    await registerMovement(m1, event.id, {
+      type: "transfer",
+      sender_participant_id: m1Pid,
+      recipient_participant_id: adminPid,
+      amount: 33.34,
+      movement_date: "2026-04-21",
+    });
+    await registerMovement(m2, event.id, {
+      type: "transfer",
+      sender_participant_id: m2Pid,
+      recipient_participant_id: adminPid,
+      amount: 33.33,
+      movement_date: "2026-04-21",
+    });
+    // After this: admin = -1 cent, m1 = +1 cent, m2 = 0. All within tolerance.
+
+    const { status, body } = await finalize(admin, event.id);
+    expect(status).toBe(200);
+    expect(body.status).toBe("finalized");
+  });
+
   test("returns 409 when at least one balance is not zero", async () => {
     const admin = await createTestUser();
     const member = await createTestUser();
