@@ -2,12 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { formatCOP, formatDate } from "@/lib/format";
-
-const palette = {
-  dark: "var(--color-dark-navy)",
-  warm: "var(--color-warm-gray)",
-  red: "var(--color-red)",
-};
+import { palette } from "@/lib/theme";
 
 export default function ExpenseDetailModal({
   eventId,

@@ -2,15 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { formatCOP } from "@/lib/format";
-
-const palette = {
-  dark:       "var(--color-dark-navy)",
-  steel:      "var(--color-steel-blue)",
-  terracotta: "var(--color-terracotta)",
-  warm:       "var(--color-warm-gray)",
-  red:        "var(--color-red)",
-  green:      "#198754",
-};
+import { palette } from "@/lib/theme";
 
 const OPTION_LABEL = {
   option1: "Saldar grandes primero",

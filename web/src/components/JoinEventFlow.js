@@ -2,13 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-const palette = {
-  dark: "var(--color-dark-navy)",
-  steel: "var(--color-steel-blue)",
-  warm: "var(--color-warm-gray)",
-  red: "var(--color-red)",
-};
+import { palette } from "@/lib/theme";
 
 const CODE_PATTERN = /^[A-Z0-9]{8}$/;
 

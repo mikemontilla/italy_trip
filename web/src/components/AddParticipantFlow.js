@@ -2,15 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { palette } from "@/lib/theme";
 
 const TOTAL_STEPS = 2;
-
-const palette = {
-  dark: "var(--color-dark-navy)",
-  terracotta: "var(--color-terracotta)",
-  warm: "var(--color-warm-gray)",
-  red: "var(--color-red)",
-};
 
 export default function AddParticipantFlow({ eventId }) {
   const [open, setOpen] = useState(false);

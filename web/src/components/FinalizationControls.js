@@ -33,7 +33,7 @@ export default function FinalizationControls({ eventId, status, balances }) {
         <button
           type="button"
           className="btn fw-semibold"
-          style={{ backgroundColor: "#198754", color: "#fff" }}
+          style={{ backgroundColor: "var(--color-success-green)", color: "#fff" }}
           disabled={busy}
           onClick={() =>
             call("finalize", "¿Finalizar el evento? No se podrán registrar más gastos ni movimientos.")

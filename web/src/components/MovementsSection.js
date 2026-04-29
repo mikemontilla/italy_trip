@@ -5,12 +5,7 @@ import { useRouter } from "next/navigation";
 import { formatCOP, formatDate } from "@/lib/format";
 import AddMovementFlow from "./AddMovementFlow";
 import MovementDetailModal from "./MovementDetailModal";
-
-const palette = {
-  dark: "var(--color-dark-navy)",
-  steel: "var(--color-steel-blue)",
-  terracotta: "var(--color-terracotta)",
-};
+import { palette } from "@/lib/theme";
 
 const TYPE_LABEL = {
   transfer: "Transferencia",

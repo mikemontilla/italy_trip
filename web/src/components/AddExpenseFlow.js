@@ -2,15 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { formatCOP } from "@/lib/format";
+import { palette } from "@/lib/theme";
 
 const TOTAL_STEPS = 6;
-
-const palette = {
-  dark: "var(--color-dark-navy)",
-  terracotta: "var(--color-terracotta)",
-  warm: "var(--color-warm-gray)",
-  red: "var(--color-red)",
-};
 
 function participantName(p) {
   return p.type === "registered" ? p.user.name : p.fictitious.name;

@@ -20,7 +20,7 @@ export default function BalanceStatusBar({ balances }) {
       <div>
         <div
           className="fw-bold"
-          style={{ color: settled ? "#198754" : "var(--color-terracotta)" }}
+          style={{ color: settled ? "var(--color-success-green)" : "var(--color-terracotta)" }}
         >
           {settled ? "¡Todo saldado! 🎉" : "Hay deudas pendientes"}
         </div>

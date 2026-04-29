@@ -5,12 +5,7 @@ import { useRouter } from "next/navigation";
 import { formatCOP, formatDate } from "@/lib/format";
 import AddExpenseFlow from "./AddExpenseFlow";
 import ExpenseDetailModal from "./ExpenseDetailModal";
-
-const palette = {
-  dark: "var(--color-dark-navy)",
-  steel: "var(--color-steel-blue)",
-  warm: "var(--color-warm-gray)",
-};
+import { palette } from "@/lib/theme";
 
 function participantName(participant) {
   return participant.type === "registered"

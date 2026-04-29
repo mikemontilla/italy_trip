@@ -3,13 +3,7 @@
 import { useState } from "react";
 import { formatCOP } from "@/lib/format";
 import ParticipantBalanceModal from "./ParticipantBalanceModal";
-
-const palette = {
-  dark: "var(--color-dark-navy)",
-  steel: "var(--color-steel-blue)",
-  terracotta: "var(--color-terracotta)",
-  warm: "var(--color-warm-gray)",
-};
+import { palette } from "@/lib/theme";
 
 function participantName(p) {
   return p.type === "registered" ? p.user.name : p.fictitious.name;
@@ -66,7 +60,7 @@ function BalanceBadge({ balance }) {
   }
   if (cents > 0) {
     return (
-      <div className="small fw-semibold" style={{ color: "#198754" }}>
+      <div className="small fw-semibold" style={{ color: palette.green }}>
         +{formatCOP(cents / 100)} a favor
       </div>
     );

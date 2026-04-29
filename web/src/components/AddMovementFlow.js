@@ -2,16 +2,9 @@
 
 import { useState } from "react";
 import { formatCOP } from "@/lib/format";
+import { palette } from "@/lib/theme";
 
 const TOTAL_STEPS = 6;
-
-const palette = {
-  dark: "var(--color-dark-navy)",
-  terracotta: "var(--color-terracotta)",
-  steel: "var(--color-steel-blue)",
-  warm: "var(--color-warm-gray)",
-  red: "var(--color-red)",
-};
 
 const TYPE_LABEL = {
   transfer: "Transferencia",
