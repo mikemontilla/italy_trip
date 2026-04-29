@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { allBalancesSettled } from "@/lib/settlement-rules";
 
 export default function FinalizationControls({ eventId, status, balances }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
 
-  const allZero = balances.every((b) => Math.round(Number(b.balance) * 100) === 0);
-  const canFinalize = status === "active" && allZero;
+  const canFinalize = status === "active" && allBalancesSettled(balances);
   const canReopen = status === "finalized";
   if (!canFinalize && !canReopen) return null;
 

@@ -1,4 +1,5 @@
 import { formatCOP } from "@/lib/format";
+import { allBalancesSettled } from "@/lib/settlement-rules";
 
 export default function BalanceStatusBar({ balances }) {
   const totalPendingCents = balances
@@ -6,7 +7,7 @@ export default function BalanceStatusBar({ balances }) {
     .filter((c) => c > 0)
     .reduce((a, b) => a + b, 0);
 
-  const settled = totalPendingCents === 0;
+  const settled = allBalancesSettled(balances);
 
   return (
     <div

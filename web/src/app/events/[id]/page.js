@@ -14,12 +14,9 @@ import BalanceStatusBar from "@/components/BalanceStatusBar";
 import SettlementButton from "@/components/SettlementButton";
 import FinalizationControls from "@/components/FinalizationControls";
 import ParticipantsList from "@/components/ParticipantsList";
+import { allBalancesSettled } from "@/lib/settlement-rules";
 
 const PLACEHOLDER = "/placeholders/event.svg";
-
-function hasPendingBalance(balances) {
-  return balances.some((b) => Math.round(Number(b.balance) * 100) !== 0);
-}
 
 export default async function EventDetailPage({ params }) {
   const { id } = await params;
@@ -87,7 +84,7 @@ export default async function EventDetailPage({ params }) {
 
       <BalanceStatusBar balances={balances} />
 
-      {currentIsAdmin && !isFinalized && hasPendingBalance(balances) && (
+      {currentIsAdmin && !isFinalized && !allBalancesSettled(balances) && (
         <div className="mb-4 d-flex justify-content-end">
           <SettlementButton eventId={event.id} />
         </div>

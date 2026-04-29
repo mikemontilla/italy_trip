@@ -1,6 +1,7 @@
 import { getConnection, query } from "@/lib/db";
 import { generateEventCode } from "@/lib/codes";
 import { computeTotalsInCents } from "@/lib/balances";
+import { allBalancesSettled } from "@/lib/settlement-rules";
 
 const MAX_CODE_ATTEMPTS = 10;
 
@@ -119,8 +120,7 @@ export async function finalizeEvent(eventId, requesterUserId) {
   if (status === "finalized") return { error: "already_finalized" };
 
   const balances = await computeTotalsInCents(eventId);
-  const allZero = balances.every((b) => b.balance_cents === 0);
-  if (!allZero) return { error: "balance_not_zero" };
+  if (!allBalancesSettled(balances)) return { error: "balance_not_zero" };
 
   await query(
     `UPDATE events SET status = 'finalized', finalized_at = NOW() WHERE id = ?`,
