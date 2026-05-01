@@ -79,7 +79,15 @@ const options = {
         BalanceDetail: {
           type: "object",
           properties: {
-            participant: { $ref: "#/components/schemas/Balance" },
+            participant: {
+              type: "object",
+              properties: {
+                id:   { type: "integer" },
+                name: { type: "string" },
+                type: { type: "string", enum: ["registered", "fictitious"] },
+                role: { type: "string", enum: ["admin", "participant"] },
+              },
+            },
             totals: {
               type: "object",
               properties: {
@@ -93,10 +101,58 @@ const options = {
             detail: {
               type: "object",
               properties: {
-                paid_expenses: { type: "array", items: { type: "object" } },
-                owed_expenses: { type: "array", items: { type: "object" } },
-                sent_movements: { type: "array", items: { type: "object" } },
-                received_movements: { type: "array", items: { type: "object" } },
+                paid_expenses: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      expense_id:    { type: "integer" },
+                      description:   { type: "string" },
+                      expense_date:  { type: "string", format: "date" },
+                      expense_total: { type: "string" },
+                      amount_paid:   { type: "string" },
+                    },
+                  },
+                },
+                owed_expenses: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      expense_id:    { type: "integer" },
+                      description:   { type: "string" },
+                      expense_date:  { type: "string", format: "date" },
+                      expense_total: { type: "string" },
+                      share:         { type: "string" },
+                    },
+                  },
+                },
+                sent_movements: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      id:               { type: "integer" },
+                      type:             { type: "string", enum: ["transfer", "loan"] },
+                      amount:           { type: "string" },
+                      movement_date:    { type: "string", format: "date" },
+                      other_party_name: { type: "string" },
+                    },
+                  },
+                },
+                received_movements: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      id:               { type: "integer" },
+                      type:             { type: "string", enum: ["transfer", "loan"] },
+                      amount:           { type: "string" },
+                      movement_date:    { type: "string", format: "date" },
+                      other_party_name: { type: "string" },
+                    },
+                  },
+                },
               },
             },
           },
@@ -182,6 +238,7 @@ const options = {
             created_at:                       { type: "string", format: "date-time" },
             payers: {
               type: "array",
+              description: "Present on detail responses only",
               items: {
                 type: "object",
                 properties: {
@@ -194,6 +251,7 @@ const options = {
             },
             splits: {
               type: "array",
+              description: "Present on detail responses only",
               items: {
                 type: "object",
                 properties: {
