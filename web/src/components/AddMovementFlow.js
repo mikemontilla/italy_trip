@@ -4,6 +4,7 @@ import { useState } from "react";
 import { formatCOP } from "@/lib/format";
 import { palette } from "@/lib/theme";
 import ErrorBanner from "./ErrorBanner";
+import { translateError } from "@/lib/error-messages";
 
 const TOTAL_STEPS = 6;
 
@@ -102,7 +103,7 @@ function Modal({ eventId, participants, onClose, onCreated }) {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.error ?? "No pudimos registrar el movimiento.");
+        throw new Error(translateError(err.error, "No pudimos registrar el movimiento."));
       }
       onCreated();
     } catch (e) {
