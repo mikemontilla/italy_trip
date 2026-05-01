@@ -14,6 +14,7 @@ import BalanceStatusBar from "@/components/BalanceStatusBar";
 import SettlementButton from "@/components/SettlementButton";
 import FinalizationControls from "@/components/FinalizationControls";
 import ParticipantsList from "@/components/ParticipantsList";
+import CollapsibleSection from "@/components/CollapsibleSection";
 import { allBalancesSettled } from "@/lib/settlement-rules";
 
 const PLACEHOLDER = "/placeholders/event.svg";
@@ -102,30 +103,27 @@ export default async function EventDetailPage({ params }) {
         <EventCodeShare code={event.code} />
       </section>
 
-      <section className="mb-5">
-        <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-          <h2 className="h5 fw-bold mb-0" style={{ color: "var(--color-dark-navy)" }}>
-            Participantes ({participants.length})
-          </h2>
-          {currentIsAdmin && !isFinalized && <AddParticipantFlow eventId={event.id} />}
-        </div>
+      <CollapsibleSection title="Participantes" count={participants.length}>
+        {currentIsAdmin && !isFinalized && (
+          <div className="d-flex justify-content-end mb-3">
+            <AddParticipantFlow eventId={event.id} />
+          </div>
+        )}
         <ParticipantsList
           eventId={event.id}
           participants={participants}
           balances={balances}
         />
-      </section>
+      </CollapsibleSection>
 
-      <div className="mb-5">
-        <ExpensesSection
-          eventId={event.id}
-          initialExpenses={expenses}
-          participants={participants}
-          currentParticipantId={currentParticipant?.id ?? null}
-          isAdmin={currentIsAdmin}
-          isFinalized={isFinalized}
-        />
-      </div>
+      <ExpensesSection
+        eventId={event.id}
+        initialExpenses={expenses}
+        participants={participants}
+        currentParticipantId={currentParticipant?.id ?? null}
+        isAdmin={currentIsAdmin}
+        isFinalized={isFinalized}
+      />
 
       <MovementsSection
         eventId={event.id}

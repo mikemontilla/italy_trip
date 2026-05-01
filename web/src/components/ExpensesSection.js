@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { formatCOP, formatDate } from "@/lib/format";
 import AddExpenseFlow from "./AddExpenseFlow";
 import ExpenseDetailModal from "./ExpenseDetailModal";
+import CollapsibleSection from "./CollapsibleSection";
 import { palette } from "@/lib/theme";
 
 function participantName(participant) {
@@ -44,19 +45,16 @@ export default function ExpensesSection({
   }
 
   return (
-    <section>
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-        <h2 className="h5 fw-bold mb-0" style={{ color: palette.dark }}>
-          Gastos ({expenses.length})
-        </h2>
-        {!isFinalized && (
+    <CollapsibleSection title="Gastos" count={expenses.length} defaultOpen>
+      {!isFinalized && (
+        <div className="d-flex justify-content-end mb-3">
           <AddExpenseFlow
             eventId={eventId}
             participants={participants}
             onCreated={handleMutation}
           />
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="mb-3">
         <label className="form-label small text-muted mb-1">Filtrar por participante</label>
@@ -120,6 +118,6 @@ export default function ExpensesSection({
           }}
         />
       )}
-    </section>
+    </CollapsibleSection>
   );
 }

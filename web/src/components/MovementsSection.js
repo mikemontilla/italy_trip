@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { formatCOP, formatDate } from "@/lib/format";
 import AddMovementFlow from "./AddMovementFlow";
 import MovementDetailModal from "./MovementDetailModal";
+import CollapsibleSection from "./CollapsibleSection";
 import { palette } from "@/lib/theme";
 
 const TYPE_LABEL = {
@@ -37,19 +38,16 @@ export default function MovementsSection({
   }
 
   return (
-    <section>
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-        <h2 className="h5 fw-bold mb-0" style={{ color: palette.dark }}>
-          Movimientos ({movements.length})
-        </h2>
-        {!isFinalized && (
+    <CollapsibleSection title="Movimientos" count={movements.length}>
+      {!isFinalized && (
+        <div className="d-flex justify-content-end mb-3">
           <AddMovementFlow
             eventId={eventId}
             participants={participants}
             onCreated={handleMutation}
           />
-        )}
-      </div>
+        </div>
+      )}
 
       {movements.length === 0 ? (
         <div
@@ -110,6 +108,6 @@ export default function MovementsSection({
           }}
         />
       )}
-    </section>
+    </CollapsibleSection>
   );
 }
