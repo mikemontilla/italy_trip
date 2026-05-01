@@ -317,7 +317,7 @@ function StepAmount({ value, onChange }) {
           autoFocus
           type="number"
           min="1"
-          step="1"
+          step="0.01"
           className="form-control"
           placeholder="50000"
           value={value}

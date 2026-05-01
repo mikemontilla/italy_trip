@@ -280,7 +280,7 @@ function StepAmount({ value, onChange }) {
           autoFocus
           type="number"
           min="1"
-          step="1"
+          step="0.01"
           className="form-control"
           placeholder="50000"
           value={value}
@@ -384,7 +384,7 @@ function StepPayers({
                       <input
                         type="number"
                         min="0"
-                        step="1"
+                        step="0.01"
                         className="form-control"
                         value={manualAmounts[id] ?? ""}
                         onChange={(e) =>
