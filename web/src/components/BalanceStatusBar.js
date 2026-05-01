@@ -22,7 +22,7 @@ export default function BalanceStatusBar({ balances }) {
           className="fw-bold"
           style={{ color: settled ? "var(--color-success-green)" : "var(--color-terracotta)" }}
         >
-          {settled ? "¡Todo saldado! 🎉" : "Hay deudas pendientes"}
+          {settled ? "¡Todo saldado! 🎉" : "Aún hay cuentas por saldar"}
         </div>
         {!settled && (
           <div className="small text-muted">

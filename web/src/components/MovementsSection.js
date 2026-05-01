@@ -56,7 +56,7 @@ export default function MovementsSection({
           className="text-center p-4 rounded-3 text-muted"
           style={{ backgroundColor: "rgba(136, 162, 170, 0.1)" }}
         >
-          Aún no hay movimientos registrados.
+          Aún no hay movimientos. Cuando alguien preste o transfiera plata, aparece aquí.
         </div>
       ) : (
         <ul className="list-group">

@@ -79,7 +79,7 @@ export default function ExpensesSection({
           className="text-center p-4 rounded-3 text-muted"
           style={{ backgroundColor: "rgba(136, 162, 170, 0.1)" }}
         >
-          Aún no hay gastos registrados.
+          Aún no hay gastos. ¡Registra el primero!
         </div>
       ) : (
         <ul className="list-group">
