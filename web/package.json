@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node src/db/migrate.js && next start",
     "lint": "eslint",
     "migrate": "node --env-file=.env.local src/db/migrate.js",
     "migrate:test": "node --env-file=.env.test src/db/migrate.js",
