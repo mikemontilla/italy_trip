@@ -1,7 +1,3 @@
-// Maps server-side error codes to user-friendly Spanish messages.
-// Use translateError(code, fallback) when you receive an error code from the API
-// and need to display it to the user.
-
 const MESSAGES = {
   // Event lifecycle
   event_finalized:    "Este evento ya fue finalizado, no se le pueden hacer más cambios.",
@@ -52,6 +48,32 @@ const MESSAGES = {
   name_too_long:       "El nombre es demasiado largo.",
 };
 
+/**
+ * Translates a server-side error code to a user-facing Spanish message.
+ *
+ * The fallback is returned when the code is missing/empty or when no entry
+ * exists in the map. Callers typically pass a context-specific fallback so
+ * that unknown server codes still produce a sensible message (e.g.
+ * `translateError(err.error, "No pudimos registrar el gasto.")`).
+ *
+ * @param {string | null | undefined} code - The error code returned by the API
+ *   (e.g. `"event_finalized"`, `"payers_sum_mismatch"`).
+ * @param {string} [fallback="Algo salió mal. Intenta de nuevo."] - Message
+ *   returned when the code is unknown or empty.
+ * @returns {string} - A human-readable Spanish message, always non-empty.
+ *
+ * @example
+ * translateError("event_finalized");
+ * // "Este evento ya fue finalizado, no se le pueden hacer más cambios."
+ *
+ * @example
+ * translateError("payers_sum_mismatch", "No pudimos guardar el gasto.");
+ * // "La suma de los pagadores no coincide con el total."
+ *
+ * @example
+ * translateError("unknown_code", "No pudimos guardar el gasto.");
+ * // "No pudimos guardar el gasto."  (falls back when code isn't in the map)
+ */
 export function translateError(code, fallback = "Algo salió mal. Intenta de nuevo.") {
   if (!code) return fallback;
   return MESSAGES[code] ?? fallback;
